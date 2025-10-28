@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import useFetch from '../hooks/useFetch';
 
 export default function Create() {
   let [title, setTitle] = useState('');
@@ -22,31 +23,39 @@ export default function Create() {
     setCategories((prev) => prev.filter((c, index) => index !== categoryIndex));
   }
 
+
+  let { setPostData } = useFetch('http://localhost:3000/books', 'POST');
+
+
+
   let handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
     
     // let [url, setUrl] = 'http://localhost:3000/books';
 
-    let data = {
+    let postData = {
       id: Math.floor(Math.random() * 1000).toString(),
       title: title,
       description: desc,
       categories: categories
     };
 
-    fetch("http://localhost:3000/books", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error('Failed to create')
-      }
-      return res.json();
-    }).then(() => navigate('/'));
+    
+    setPostData(postData);
+
+    // fetch("http://localhost:3000/books", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(data)
+    // }).then((res) => {
+    //   if (!res.ok) {
+    //     throw new Error('Failed to create')
+    //   }
+    //   return res.json();
+    // }).then(() => navigate('/'));
 
     
     
@@ -66,7 +75,6 @@ export default function Create() {
 
             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
             <textarea onChange={(e) => setDesc(e.target.value)} id="description" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description ..."></textarea>
-
           </div>
           <div className=''>
             <label htmlFor="categories">Categories</label>
