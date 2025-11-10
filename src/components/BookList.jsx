@@ -1,9 +1,18 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
 import Book from './Book';
+import { useLocation } from 'react-router-dom';
 
 export default function BookList() {
-    let { data: books, loading, error } = useFetch('http://localhost:3000/books');
+
+    // filter with search key
+    let location = useLocation(); // for current url
+    let params = new URLSearchParams(location.search); // to get search key value, you have to use URLSearchParams firstly.
+    let searchKey = params.get('searchKey') || '';
+    // console.log(searchKey);
+    
+    let { data: books, loading, error } = useFetch(`http://localhost:3000/books?q=${searchKey}`);
+    // if (searchKey && books) console.log(books);
 
     return (
 

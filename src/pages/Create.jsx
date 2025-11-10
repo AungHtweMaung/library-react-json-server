@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
@@ -24,14 +24,14 @@ export default function Create() {
   }
 
 
-  let { setPostData } = useFetch('http://localhost:3000/books', 'POST');
+  let { setPostData, data: book } = useFetch('http://localhost:3000/books', 'POST');
 
 
 
   let handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    
+
     // let [url, setUrl] = 'http://localhost:3000/books';
 
     let postData = {
@@ -41,25 +41,12 @@ export default function Create() {
       categories: categories
     };
 
-    
+
     setPostData(postData);
 
-    // fetch("http://localhost:3000/books", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(data)
-    // }).then((res) => {
-    //   if (!res.ok) {
-    //     throw new Error('Failed to create')
-    //   }
-    //   return res.json();
-    // }).then(() => navigate('/'));
-
-    
-    
   }
+
+  useEffect(() => { if (book) navigate('/') }, [book]);
 
   return (
     <div className='max-w-3xl m-auto'>
@@ -102,7 +89,7 @@ export default function Create() {
             </div>
             {categories && categories.map((c, index) => <div key={index} className='flex items-center space-y-2'>
               <span>{c}</span>
-              { c && <span className='text-red-600 cursor-pointer' onClick={() => handleRemoveCategory(index)}>
+              {c && <span className='text-red-600 cursor-pointer' onClick={() => handleRemoveCategory(index)}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
@@ -114,7 +101,7 @@ export default function Create() {
 
         </div>
         <button type="submit" disabled={submitting} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          { submitting ? 'Submitting...' : 'Submit' }
+          {submitting ? 'Submitting...' : 'Submit'}
         </button>
       </form>
 

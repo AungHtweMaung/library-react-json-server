@@ -12,10 +12,10 @@ export default function Book({book}) {
             <img src={bookImage} alt="" />
             <div className='text-center mt-3 space-y-2'>
                 <h1 className=''>{book.title}</h1>
-                <p >{book.description.slice(0, 100) + '...'}</p>
+                <p >{(book.description || '').slice(0, 100) + '...'}</p>
 
                 <div className='flex flex-wrap gap-2 '>
-                    {book.categories.map((category, index) => (
+                    {(book.categories || []).map((category, index) => (
                         <span key={index} className='bg-primary px-2 py-1 rounded-full text-sm text-white'>{category}</span>
                     ))}
                 </div>

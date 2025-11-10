@@ -33,7 +33,7 @@ export default function BookDetails() {
                 </div>
                 <div className='space-y-3 p-3'>
                     <h1 className='text-4xl'>{book.title}</h1>
-                    {book.categories.map((category, index) => (
+                    {(book.categories || []).map((category, index) => (
                         <span key={index} className='bg-primary px-2 py-1 rounded-full text-sm text-white mr-3'>{category}</span>
                     ))}
                     <p className='indent-20 text-justify'>{book.description}</p>
