@@ -1,12 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import profile from '../assets/profile.jpg';
+import { ThemeContext } from '../contexts/ThemeContext';
+import useTheme from '../hooks/useTheme';
 
 export default function Navbar() {
+    // if (search) console.log(search);
+    let [search, setSearch] = useState('');
+    let { theme } = useTheme();
+
+    let navigate = useNavigate();
+
+    function handleSearch() {
+        if (search !== '') {
+            navigate('/?searchKey=' + search);
+        }
+    }
+
+
     return (
 
-        <nav className='bg-white p-3 '>
+        <nav className={`bg-white p-3 ${theme === 'dark' ? 'bg-yellow-200': 'bg-white'}`}>
             <ul className='flex justify-between max-w-6xl mx-auto'>
                 <li className='flex gap-2 items-center'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
@@ -14,7 +29,8 @@ export default function Navbar() {
                     </svg>
 
 
-                    <input placeholder='Search ...' id="" type="text" name="" className='outline-0' />
+                    <input onChange={(e) => setSearch(e.target.value)} placeholder='Search ...' id="" type="text" name="" className='outline-0' />
+                    <button onClick={handleSearch} className='bg-primary p-2 rounded-2xl text-white'>Search</button>
 
                 </li>
                 <Link to={'/'} className='flex gap-2 items-center md:-ml-32 cursor-pointer'>
