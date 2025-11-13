@@ -4,11 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import profile from '../assets/profile.jpg';
 import { ThemeContext } from '../contexts/ThemeContext';
 import useTheme from '../hooks/useTheme';
+import lightIcon from '../assets/light.svg';
+import darkIcon from '../assets/dark.svg';
 
 export default function Navbar() {
     // if (search) console.log(search);
     let [search, setSearch] = useState('');
-    let { theme } = useTheme();
+    let { theme, changeTheme } = useTheme();
 
     let navigate = useNavigate();
 
@@ -19,9 +21,10 @@ export default function Navbar() {
     }
 
 
+
     return (
 
-        <nav className={`bg-white p-3 ${theme === 'dark' ? 'bg-yellow-200': 'bg-white'}`}>
+        <nav className={`bg-white p-3`}>
             <ul className='flex justify-between max-w-6xl mx-auto'>
                 <li className='flex gap-2 items-center'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
@@ -40,16 +43,25 @@ export default function Navbar() {
 
                     <span className='text-2xl font-bold hidden sm:block text-primary'>BookStore</span>
                 </Link>
-                <li className='flex gap-2 items-center'>
-                    <Link to={'create'} className='flex items-center bg-primary py-2 px-3 text-white rounded-2xl'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
+                <div className='flex justify-end'>
+                    <li className='flex gap-2 items-center'>
+                        <Link to={'create'} className='flex items-center bg-primary py-2 px-3 text-white rounded-2xl'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
 
-                        <span className='hidden sm:block'>Create Book</span>
-                    </Link>
-                    <img src={profile} alt="" className='w-12 h-12 border-0 rounded-full' />
-                </li>
+                            <span className='hidden sm:block'>Create Book</span>
+                        </Link>
+                    </li>
+                    <div className='mx-3'>
+                        <img src={profile} alt="" className='w-12 h-12 border-0 rounded-full' />
+                    </div>
+                    <div className='cursor-pointer'>
+                        {theme === "dark" && <img src={lightIcon} className='w-10' onClick={() => changeTheme('light')} alt="" />}
+                        {theme === "light" && <img src={darkIcon} className='w-10' onClick={() => changeTheme('dark')} alt="" /> }
+                    </div>
+                </div>
+
             </ul>
         </nav>
 
